@@ -1,7 +1,8 @@
 import { Context } from "telegraf";
 
 export interface SessionData {
-  selectedCategory: any;
+  description: string;
+  selectedCategory: string;
   awaitingDescription: boolean;
 }
 

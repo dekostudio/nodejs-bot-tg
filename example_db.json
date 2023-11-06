@@ -9,7 +9,8 @@
     {
       "id": "6935679053:6935679053",
       "data": {
-        "awaitingDescription": false
+        "awaitingDescription": false,
+        "selectedCategory": ""
       }
     },
     {

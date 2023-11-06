@@ -7,6 +7,10 @@ export class StartCommand extends Command {
     super(bot);
   }
 
+  descriptionProject(ctx: { reply: (arg0: string) => void; }): void {
+    ctx.reply(`Пожалуйста, опишите ваш проект, уточните сроки, бюджет проекта и контактную информацию\n\n Пример:\n пока нету.`);
+  }
+
   handle(): void {
     this.bot.start((ctx) => {
       const replyMarkup = {
@@ -26,7 +30,7 @@ export class StartCommand extends Command {
       ctx.reply(`Привет! 👋\n\nЯ - бот от студии веб-разработки DekoStudio.\n\nМы здесь, чтобы помочь вам с вопросами о веб-разработке, создании сайтов, мобильных приложений и других онлайн-проектах. Не стесняйтесь задавать любые вопросы или просить совета, и мы постараемся вам помочь.\n\nТакже у нас есть много интересных статей, ресурсов и проектов, которыми мы гордимся, и мы готовы поделиться этой информацией с вами. Как мы можем быть вам полезны сегодня? 🚀💻`, { reply_markup: replyMarkup });
     });
 
-    this.bot.action("information", (ctx) => {
+    this.bot.action("information", (ctx): void => {
       const informationText = `Мы здесь, чтобы помочь вам воплотить в жизнь ваши онлайн-проекты и ответить на ваши вопросы о веб-разработке, дизайне, мобильных приложениях и многом другом.\n\n🌐 Наша экспертиза включает:\n\n🖥 Веб-разработку\n\n📱 Мобильные приложения\n\n💡 UI/UX Дизайн\n\n🚀 SEO и Маркетинг\n\n💻 Техническую поддержку\n\nЕсли у вас есть вопросы, идеи, или вы просто хотите узнать больше о нашей студии, не стесняйтесь обращаться к нам. Мы готовы помочь вам реализовать ваши проекты в интернете!\n\nЧем мы можем вам помочь сегодня? 💡`
 
       const replyMarkup = {
@@ -39,7 +43,7 @@ export class StartCommand extends Command {
       ctx.reply(informationText, { reply_markup: replyMarkup });
     });
 
-    this.bot.action("into_brief", (ctx) => {
+    this.bot.action("into_brief", (ctx): void => {
       const replyMarkup = {
         inline_keyboard: [
           [{ text: "UX - проектирование", callback_data: "ux-choose" }],
@@ -52,31 +56,31 @@ export class StartCommand extends Command {
       ctx.reply("Какие услуги вам необходимы?", { reply_markup: replyMarkup });
     });
 
-    this.bot.action("ux-choose", (ctx) => {
-      ctx.reply(`Пожалуйста, опишите ваш проект, уточните сроки, бюджет проекта и контактную информацию\n\n Пример:\n пока нету.`);
+    this.bot.action("ux-choose", (ctx): void => {
+      this.descriptionProject(ctx)
       ctx.session.awaitingDescription = true;
       ctx.session.selectedCategory = "UX - проектирование";
     });
 
-    this.bot.action("onlineshop-choose", (ctx) => {
-      ctx.reply(`Пожалуйста, опишите ваш проект, уточните сроки, бюджет проекта и контактную информацию\n\n Пример:\n пока нету.`);
+    this.bot.action("onlineshop-choose", (ctx): void => {
+      this.descriptionProject(ctx)
       ctx.session.awaitingDescription = true;
       ctx.session.selectedCategory = "Интернет - Магазин";
     });
 
-    this.bot.action("landing-choose", (ctx) => {
-      ctx.reply(`Пожалуйста, опишите ваш проект, уточните сроки, бюджет проекта и контактную информацию\n\n Пример:\n пока нету.`);
+    this.bot.action("landing-choose", (ctx): void => {
+      this.descriptionProject(ctx)
       ctx.session.awaitingDescription = true;
       ctx.session.selectedCategory = "Лендинг";
     });
 
-    this.bot.action("website-choose", (ctx) => {
-      ctx.reply(`Пожалуйста, опишите ваш проект, уточните сроки, бюджет проекта и контактную информацию\n\n Пример:\n пока нету.`);
+    this.bot.action("website-choose", (ctx): void => {
+      this.descriptionProject(ctx)
       ctx.session.awaitingDescription = true;
       ctx.session.selectedCategory = "Сайт";
     });
 
-    this.bot.on("text", (ctx) => {
+    this.bot.on("text", (ctx): void => {
       if (ctx.session.awaitingDescription) {
         const userId = ctx.from.id;
         const username = ctx.from.username;
@@ -86,15 +90,15 @@ export class StartCommand extends Command {
         this.sendToYourself(userId, username, description, category);
         
         ctx.session.awaitingDescription = false;
-        ctx.session.selectedCategory = undefined;
-        ctx.reply("Спасибо за ваше описание проекта!");
+        ctx.session.selectedCategory = "";
+
+        ctx.reply(`💼 Данная информация была передана нашим специалистам, скоро они вам ответят ✉️ \n\nЕсли возники какие - то проблемы, то звоните по номеру 📞\n+7 (988) 175-11-12`);
       }
     });
   }
 
-  private sendToYourself(userId: number, username: string | undefined, description: string, category: string) {
-    const yourUserId = "782797114:782797114";
-
-    this.bot.telegram.sendMessage(yourUserId, `Пользователь с никнеймом: ${username}\n id: ${userId} \nНовое описание проекта:\n${description}\n\nВыбранная категория: ${category}`);
+  private sendToYourself(userId: number, username: string | undefined, description: string, category: string): void {
+    const sendInfo = `🚀 У нас новый заказ!\n\n🌐 Приступаем к работе! 💼\n\nДанные пользователя 👤\n\nusername: ${username}\nid: ${userId}\n\nИнформация о проекте 📖\n\nВыбранная категория: ${category}\nОписание проекта: ${description}`
+    this.bot.telegram.sendMessage(process.env.USER_ID as string | number, sendInfo);
   }
 }
