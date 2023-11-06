@@ -1,0 +1,29 @@
+{
+  "sessions": [
+    {
+      "id": "782797114:782797114",
+      "data": {
+        "awaitingDescription": false
+      }
+    },
+    {
+      "id": "6935679053:6935679053",
+      "data": {
+        "awaitingDescription": false
+      }
+    },
+    {
+      "id": "1003849257:1003849257",
+      "data": {
+        "awaitingDescription": true,
+        "selectedCategory": "UX - проектирование"
+      }
+    },
+    {
+      "id": "688311363:688311363",
+      "data": {
+        "awaitingDescription": false
+      }
+    }
+  ]
+}
