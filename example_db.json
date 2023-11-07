@@ -3,14 +3,16 @@
     {
       "id": "782797114:782797114",
       "data": {
-        "awaitingDescription": false
+        "awaitingDescription": true,
+        "selectedCategory": "Интернет - Магазин"
       }
     },
     {
       "id": "6935679053:6935679053",
       "data": {
-        "awaitingDescription": false,
-        "selectedCategory": ""
+        "awaitingDescription": true,
+        "selectedCategory": "Интернет - Магазин",
+        "awaitingFileUpload": false
       }
     },
     {
